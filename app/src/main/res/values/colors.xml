@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorAccent">#ADD7F6</color>
+    <color name="colorSecondary">@android:color/white</color>
+
+    <!-- Screens background color-->
+    <color name="bg_screen1">#2196F3</color>
+    <color name="bg_screen2">#2196F3</color>
+    <color name="bg_screen3">#2196F3</color>
+    <color name="bg_screen4">#2196F3</color>
+
+    <!-- dots inactive colors -->
+    <color name="dot_dark_screen1">#1976D2</color>
+    <color name="dot_dark_screen2">#1976D2</color>
+    <color name="dot_dark_screen3">#1976D2</color>
+    <color name="dot_dark_screen4">#1976D2</color>
+
+    <!-- dots active colors -->
+    <color name="dot_light_screen1">#90CAF9</color>
+    <color name="dot_light_screen2">#90CAF9</color>
+    <color name="dot_light_screen3">#90CAF9</color>
+    <color name="dot_light_screen4">#90CAF9</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen2</item>
+        <item>@color/dot_light_screen3</item>
+        <item>@color/dot_light_screen4</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen2</item>
+        <item>@color/dot_dark_screen3</item>
+        <item>@color/dot_dark_screen4</item>
+    </array>
+
+    <color name="black_overlay">#66000000</color>
+</resources>

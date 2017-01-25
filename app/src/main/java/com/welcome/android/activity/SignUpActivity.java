@@ -1,0 +1,73 @@
+package com.welcome.android.activity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.welcome.android.R;
+
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
+
+    Toolbar mToolbar;
+    TextView txtRegToLogin;
+    Button btnSignUp;
+    EditText editName, editEmail, editPassword;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_up);
+
+        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(mToolbar);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        txtRegToLogin = (TextView) this.findViewById(R.id.txtRegToLogin);
+        txtRegToLogin.setOnClickListener(this);
+
+        editName = (EditText) this.findViewById(R.id.editName);
+        editEmail = (EditText) this.findViewById(R.id.editEmail);
+        editPassword = (EditText) this.findViewById(R.id.editPassword);
+
+        btnSignUp = (Button) this.findViewById(R.id.btnSignUp);
+        btnSignUp.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+
+        switch (id) {
+            case R.id.txtRegToLogin:
+                Intent regToLogin = new Intent(SignUpActivity.this, LogInActivity.class);
+                startActivity(regToLogin);
+                break;
+            case R.id.btnSignUp:
+                Intent regToOccupation = new Intent(SignUpActivity.this, OccupationActivity.class);
+//                final User newUser = new User();
+//                FirebaseDBUtils<User> fbase = new FirebaseDBUtils<User>(User.class);
+//                newUser.setRef(fbase.getNewChildRef());
+//
+//                newUser.setName(editName.getText().toString());
+//                newUser.setEmail(editEmail.getText().toString());
+//
+//                newUser.pushToDB();
+//                FirebaseAuthUtils.signUp(newUser, editPassword.getText().toString());
+
+//                regToOccupation.putExtra("newUser", newUser);
+//                regToOccupation.putExtra("password", editPassword.getText().toString());
+
+                startActivity(regToOccupation);
+            default:
+                break;
+        }
+    }
+}
