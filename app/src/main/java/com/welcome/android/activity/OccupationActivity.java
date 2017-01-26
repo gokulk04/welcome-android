@@ -63,6 +63,8 @@ public class OccupationActivity extends AppCompatActivity implements View.OnClic
         switch (id) {
             case R.id.btnNext1to2:
                 Intent occupationToAddInfo = new Intent(OccupationActivity.this, AdditionalInfoActivity.class);
+                //Firebase add user info for occupation
+
 
 //                newUser.setJobTitle(editOccupation.getText().toString());
 //                newUser.setSchool(editSchool.getText().toString());

@@ -14,8 +14,6 @@ import android.widget.TextView;
 import com.welcome.android.EventListAdapter;
 import com.welcome.android.R;
 
-import java.util.ArrayList;
-
 
 /**
  * Created by hp1 on 21-01-2015.
@@ -39,16 +37,9 @@ public class Tab1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View v = inflater.from(container.getContext()).inflate(R.layout.tab_1, container, false);
-        ArrayList<Integer> imageList = new ArrayList<Integer>();
 
-        imageList.add(R.drawable.p1);
-        imageList.add(R.drawable.p2);
-        imageList.add(R.drawable.p3);
-        imageList.add(R.drawable.p4);
-        imageList.add(R.drawable.p5);
-        imageList.add(R.drawable.p6);
-        imageList.add(R.drawable.p7);
-        imageList.add(R.drawable.p8);
+        //GET FILTERED EVENT OBJECTS FOR NEARBY EVENTS FROM FIREBASE
+
 
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -56,6 +47,7 @@ public class Tab1 extends Fragment {
         txtScanning = (TextView) v.findViewById(R.id.txtScanning);
         llScanning = (LinearLayout) v.findViewById(R.id.llScanning);
 
+        //CURRENTLY A DUMMY PROGRESS GUI FOR SCANNING NEARBY EVENTS. REPLACE TIMER WITH CALLBACK FOR WHEN FIREBASE HAS FOUND NEARBY EVENTS
 
        new Thread(){
             @Override
@@ -83,7 +75,7 @@ public class Tab1 extends Fragment {
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(llm);
-        EventListAdapter rvAdapter = new EventListAdapter(getActivity(), imageList);
+        EventListAdapter rvAdapter = new EventListAdapter(getActivity());
         recyclerView.setAdapter(rvAdapter);
 
 

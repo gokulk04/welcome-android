@@ -7,19 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
-
 /**
  * Created by Gokul on 1/25/2017.
  */
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder>{
     private FragmentActivity activity;
-    private ArrayList<Integer> imageList;
 
 
-    public EventListAdapter(FragmentActivity activity, ArrayList<Integer> imageList) {
+
+    public EventListAdapter(FragmentActivity activity) {
         this.activity = activity;
-        this.imageList = imageList;
     }
     @Override
     public EventListAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {

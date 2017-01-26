@@ -1,15 +1,41 @@
 package com.welcome.android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.welcome.android.R;
 
-public class LogInActivity extends AppCompatActivity {
+public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private EditText editLoginEmail, editLoginPassword;
+    private Button btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+
+        editLoginEmail = (EditText) this.findViewById(R.id.editLoginEmail);
+        editLoginPassword = (EditText) this.findViewById(R.id.editLoginPassword);
+        btnLogin = (Button) this.findViewById(R.id.btnLogin);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch(id){
+            case R.id.btnLogin:
+                //firebase authorization for login
+                Intent loginToOcc = new Intent(LogInActivity.this, OccupationActivity.class);
+                startActivity(loginToOcc);
+
+                break;
+            default:
+                break;
+        }
     }
 }

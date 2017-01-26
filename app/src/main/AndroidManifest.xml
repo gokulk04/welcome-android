@@ -31,9 +31,6 @@
         </activity>
         <activity android:name=".activity.LogInActivity"
             android:label="Log In"/>
-        <activity
-            android:name=".activity.RegisterActivity"
-            android:label="@string/title_activity_register" />
         <activity android:name=".activity.OccupationActivity"
             android:label=""/>
         <activity android:name=".activity.WelcomeActivity" />

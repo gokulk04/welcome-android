@@ -24,7 +24,7 @@
             android:layout_marginTop="10dp">
 
             <EditText
-                android:id="@+id/your_email_address"
+                android:id="@+id/editLoginEmail"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
             <EditText
-                android:id="@+id/create_new_password"
+                android:id="@+id/editLoginPassword"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -51,6 +51,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:id="@+id/btnLogin"
         android:background="@drawable/btn_sign_up"
         android:text="LOGIN"
         style="?android:attr/borderlessButtonStyle"

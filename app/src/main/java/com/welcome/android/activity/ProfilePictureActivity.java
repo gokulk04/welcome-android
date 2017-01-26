@@ -78,6 +78,8 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
                 Intent imgIntent = new Intent (Intent.ACTION_PICK);
                 imgIntent.setType("image/*");
                 startActivityForResult(imgIntent, SELECT_PHOTO);
+                //Firebase add user info for profile picture **NOTE PROFILE PIC UPLOAD NOT WORKING PROPERLY
+
 
                 break;
             default:

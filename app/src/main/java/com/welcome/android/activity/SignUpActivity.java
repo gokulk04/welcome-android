@@ -29,7 +29,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
         txtRegToLogin = (TextView) this.findViewById(R.id.txtRegToLogin);
         txtRegToLogin.setOnClickListener(this);
 
@@ -52,6 +51,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.btnSignUp:
                 Intent regToOccupation = new Intent(SignUpActivity.this, OccupationActivity.class);
+                //Create new firebase user here and add email, name, and password info
+
+
 //                final User newUser = new User();
 //                FirebaseDBUtils<User> fbase = new FirebaseDBUtils<User>(User.class);
 //                newUser.setRef(fbase.getNewChildRef());
