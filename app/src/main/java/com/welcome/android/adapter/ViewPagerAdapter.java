@@ -1,4 +1,4 @@
-package com.welcome.android;
+package com.welcome.android.adapter;
 
 
 import android.support.v4.app.Fragment;
