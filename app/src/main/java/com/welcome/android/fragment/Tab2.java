@@ -9,9 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.welcome.android.MyStuffEventsAdapter;
-import com.welcome.android.OrgListAdapter;
 import com.welcome.android.R;
+import com.welcome.android.adapter.MyStuffEventsAdapter;
+import com.welcome.android.adapter.OrgListAdapter;
 
 public class Tab2 extends Fragment {
 

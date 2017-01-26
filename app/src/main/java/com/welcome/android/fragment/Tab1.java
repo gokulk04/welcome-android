@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.welcome.android.EventListAdapter;
 import com.welcome.android.R;
+import com.welcome.android.adapter.EventListAdapter;
 
 
 /**
@@ -36,7 +36,7 @@ public class Tab1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.from(container.getContext()).inflate(R.layout.tab_1, container, false);
+        View v = LayoutInflater.from(container.getContext()).inflate(R.layout.tab_1, container, false);
 
         //GET FILTERED EVENT OBJECTS FOR NEARBY EVENTS FROM FIREBASE
 

@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import com.welcome.android.CustomViewPager;
 import com.welcome.android.R;
 import com.welcome.android.SlidingTabLayout;
-import com.welcome.android.ViewPagerAdapter;
+import com.welcome.android.adapter.ViewPagerAdapter;
 
 public class WelcomeActivity extends AppCompatActivity {
     Toolbar mToolbar;
