@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_gravity="center_horizontal"
-    android:background="@color/colorPrimary"
+    android:background="#fafafa"
     android:layout_height="match_parent">
 
     <TextView
@@ -11,7 +11,7 @@
         android:id="@+id/txtScanning"
         android:layout_margin="16dp"
         android:textSize="22.5sp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorPrimary"
         android:text="Scanning for Events Near You"
         android:layout_height="wrap_content" />
 
@@ -31,13 +31,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            app:SpinKit_Color="@color/colorAccent" />
+            app:SpinKit_Color="@color/colorPrimary" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:elevation="5dp"
         android:layout_height="match_parent"/>
 
 

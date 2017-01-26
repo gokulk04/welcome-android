@@ -12,9 +12,10 @@
         android:id="@+id/imgSplash"
         android:layout_centerInParent="true"
         android:layout_height="150dp" />
+
     <TextView
         android:layout_width="wrap_content"
-        android:text="Welcome"
+        android:text="Wel090909come"
         android:textColor="@android:color/white"
         android:layout_centerInParent="true"
         android:layout_below="@+id/imgSplash"

@@ -38,8 +38,7 @@ public class Tab1 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.tab_1, container, false);
-
+        View v = inflater.from(container.getContext()).inflate(R.layout.tab_1, container, false);
         ArrayList<Integer> imageList = new ArrayList<Integer>();
 
         imageList.add(R.drawable.p1);
@@ -82,7 +81,7 @@ public class Tab1 extends Fragment {
         }.start();
 
 
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(llm);
         EventListAdapter rvAdapter = new EventListAdapter(getActivity(), imageList);
         recyclerView.setAdapter(rvAdapter);

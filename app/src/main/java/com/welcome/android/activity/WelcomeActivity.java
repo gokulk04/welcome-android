@@ -1,10 +1,10 @@
 package com.welcome.android.activity;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.welcome.android.CustomViewPager;
 import com.welcome.android.R;
 import com.welcome.android.SlidingTabLayout;
 import com.welcome.android.ViewPagerAdapter;
@@ -14,7 +14,7 @@ public class WelcomeActivity extends AppCompatActivity {
     SlidingTabLayout tabs;
     CharSequence Titles[] = {"Events", "My Stuff"};
     int Numboftabs = 2;
-    ViewPager pager;
+    CustomViewPager pager;
     ViewPagerAdapter adapter;
 
     @Override
@@ -28,8 +28,10 @@ public class WelcomeActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
-        pager = (ViewPager) findViewById(R.id.pager);
+        pager = (CustomViewPager) findViewById(R.id.pager);
+        pager.setPagingEnabled(false);
         pager.setAdapter(adapter);
+
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
 

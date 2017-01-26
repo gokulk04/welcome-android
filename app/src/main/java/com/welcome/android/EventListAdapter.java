@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 
 /**
@@ -33,7 +31,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        Picasso.with(activity).load(R.drawable.p1).into(viewHolder.imageView);
+       // Picasso.with(activity).load(R.drawable.p1).into(viewHolder.imageView);
        /* viewHolder.txtViewTitle.setText(this.adapterStringList.get(i));
         viewHolder.imageView.setImageResource(this.adapterImageList.get(i));
 */
@@ -50,7 +48,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         public ImageView imageView;
         public ViewHolder(View itemView) {
             super(itemView);
-            imageView = (ImageView) itemView.findViewById(R.id.imgEvent);
+            //imageView = (ImageView) itemView.findViewById(R.id.imgEvent);
             //    txtViewTitle = (TextView) itemView.findViewById(R.id.item_title);
         }
     }
