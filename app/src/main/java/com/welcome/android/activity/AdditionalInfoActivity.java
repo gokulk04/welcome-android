@@ -12,16 +12,13 @@ import android.widget.EditText;
 
 import com.welcome.android.DatePickerFrag;
 import com.welcome.android.R;
+import com.welcome.android.utils.FirebaseAuthUtils;
 
 public class AdditionalInfoActivity extends AppCompatActivity implements View.OnClickListener {
 
     Toolbar mToolbar;
     Button btnNext2to3;
     private EditText editBirthday, editEthnicity, editGender, editNumber;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +46,8 @@ public class AdditionalInfoActivity extends AppCompatActivity implements View.On
                     raceDialog.setTitle("Ethnicity")
                             .setItems(ethnicities, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-
-                                    editEthnicity.setText(ethnicities[which]);
+                                    String ethnicity = ethnicities[which];
+                                    editEthnicity.setText(ethnicity);
                                     dialog.dismiss();
 
                                 }
@@ -69,8 +66,8 @@ public class AdditionalInfoActivity extends AppCompatActivity implements View.On
                     sexDialog.setTitle("Gender")
                             .setItems(genders, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-
-                                    editGender.setText(genders[which]);
+                                    String gender = genders[which];
+                                    editGender.setText(gender);
                                     dialog.dismiss();
 
                                 }
@@ -94,6 +91,10 @@ public class AdditionalInfoActivity extends AppCompatActivity implements View.On
 
         switch (id) {
             case R.id.btnNext2to3:
+                FirebaseAuthUtils.currentUser.setGender(editGender.getText().toString());
+                FirebaseAuthUtils.currentUser.setBirthday(editBirthday.getText().toString());
+                FirebaseAuthUtils.currentUser.setRace(editEthnicity.getText().toString());
+                FirebaseAuthUtils.currentUser.setPhoneNumber(editNumber.getText().toString());
                 Intent AddInfoToProfPic = new Intent(AdditionalInfoActivity.this, ProfilePictureActivity.class);
                 startActivity(AddInfoToProfPic);
                 break;

@@ -1,13 +1,19 @@
 package com.welcome.android.utils;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.welcome.android.objects.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Kraji on 1/13/2017.
@@ -15,52 +21,98 @@ import com.welcome.android.objects.User;
 
 public class FirebaseAuthUtils {
     public static User currentUser;
-    public static FirebaseUser currentFirebaseAuth;
+    public static FirebaseUser currentFirebaseUser;
 
-    public static Task login(String email, String password) {
-        return FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password);
+    public static Task<Void> login(String email, String password) {
+        return FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).continueWithTask(new Continuation<AuthResult, Task<User>>() {
+            @Override
+            public Task<User> then(@NonNull Task<AuthResult> task) throws Exception {
+                FirebaseUser user = task.getResult().getUser();
+                FirebaseAuthUtils.currentFirebaseUser = user;
+                return User.getById(user.getUid());
+            }
+        }).continueWith(new Continuation<User, Void>() {
+            @Override
+            public Void then(@NonNull Task<User> task) throws Exception {
+                FirebaseAuthUtils.currentUser = task.getResult();
+                return null;
+            }
+        });
     }
 
     public static void logout() {
         FirebaseAuth.getInstance().signOut();
+        FirebaseAuthUtils.currentUser = null;
+        FirebaseAuthUtils.currentFirebaseUser = null;
     }
 
-    public static Task signUp(final User newUser, final String password) {
-        Task t1 = newUser.pushToDB();
-        Task t2 = FirebaseAuth.getInstance().createUserWithEmailAndPassword(newUser.getEmail(), password);
-        Task[] tasks = {t1, t2};
-        return Tasks.whenAll(tasks);
+    public static Task<Void> signUp(final String email, final String name, final String password) {
+        return FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).continueWithTask(new Continuation<AuthResult, Task<Void>>() {
+            @Override
+            public Task<Void> then(@NonNull Task<AuthResult> task) throws Exception {
+                FirebaseAuthUtils.currentFirebaseUser = task.getResult().getUser();
+                final User newUser = new User();
+                FirebaseDBUtils<User> fdbu = new FirebaseDBUtils<User>(User.class);
+                newUser.setRef(fdbu.getNewChildRef(FirebaseAuthUtils.currentFirebaseUser.getUid()));
+                newUser.setName(name);
+                newUser.setEmail(email);
+                return newUser.pushToDB();
+            }
+        }).continueWithTask(new Continuation<Void, Task<User>>() {
+            @Override
+            public Task<User> then(@NonNull Task<Void> task) throws Exception {
+                return User.getById(FirebaseAuthUtils.currentFirebaseUser.getUid());
+            }
+        }).continueWith(new Continuation<User, Void>() {
+            @Override
+            public Void then(@NonNull Task<User> task) throws Exception {
+                FirebaseAuthUtils.currentUser = task.getResult();
+                return null;
+            }
+        });
     }
 
-    public static Task updateEmail(User currentUserObject, String email) {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+    public static Task<Void> updateEmail(final String email) {
+        final FirebaseUser currentUser = FirebaseAuthUtils.currentFirebaseUser;
         if (currentUser == null)
             throw new RuntimeException("can't update email when no user is logged in");
-        currentUserObject.setEmail(email);
-        Task t1 = currentUserObject.pushToDB();
-        Task t2 = currentUser.updateEmail(email);
-        Task[] tasks = {t1, t2};
-        return Tasks.whenAll(tasks);
+        FirebaseAuthUtils.currentUser.setEmail(email);
+        return FirebaseAuthUtils.currentUser.pushToDB().continueWithTask(new Continuation<Void, Task<Void>>() {
+            @Override
+            public Task<Void> then(@NonNull Task<Void> task) throws Exception {
+                return currentUser.updateEmail(email);
+            }
+        });
     }
 
-    public static Task updatePassword(String password) {
+    public static Task<Void> updatePassword(String password) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null)
             throw new RuntimeException("can't update password when no user is logged in");
         return currentUser.updatePassword(password);
     }
 
-    public static Task updateProfile(User currentUserObject, String displayName, Uri profilePicUri) {
+    public static Task<Void> updateProfile(final String newName, Bitmap newProfileImage) {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null)
             throw new RuntimeException("can't update profile when no user is logged in");
-        UserProfileChangeRequest.Builder builder = new UserProfileChangeRequest.Builder();
-        builder.setDisplayName(displayName);
-        builder.setPhotoUri(profilePicUri);
-        Task t1 = currentUser.updateProfile(builder.build());
-        currentUserObject.setProfPicUrl(profilePicUri.toString());
-        Task t2 = currentUserObject.pushToDB();
-        Task[] tasks = {t1, t2};
-        return Tasks.whenAll(tasks);
+        final List<Uri> profilePicUriContainer = new ArrayList<>();
+        return FirebaseStorageUtils.uploadImage(newProfileImage).continueWithTask(new Continuation<Uri, Task<Void>>() {
+            @Override
+            public Task<Void> then(@NonNull Task<Uri> task) throws Exception {
+                Uri uri = task.getResult();
+                profilePicUriContainer.add(uri);
+                UserProfileChangeRequest.Builder builder = new UserProfileChangeRequest.Builder();
+                builder.setDisplayName(newName);
+                builder.setPhotoUri(uri);
+                return FirebaseAuthUtils.currentFirebaseUser.updateProfile(builder.build());
+            }
+        }).continueWithTask(new Continuation<Void, Task<Void>>() {
+            @Override
+            public Task<Void> then(@NonNull Task<Void> task) throws Exception {
+                FirebaseAuthUtils.currentUser.setProfPicUrl(profilePicUriContainer.get(0).toString());
+                return FirebaseAuthUtils.currentUser.pushToDB();
+            }
+        });
     }
 }

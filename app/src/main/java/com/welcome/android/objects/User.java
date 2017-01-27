@@ -16,7 +16,7 @@ public class User extends FirebaseObject{
     private String profPicUrl;
     private List<String> memberOrganizationIds;
     private List<String> adminOrganizationIds;
-    private Long birthday;
+    private String birthday;
     private String phoneNumber;
     private String race;
     private String gender;
@@ -112,11 +112,11 @@ public class User extends FirebaseObject{
         this.adminOrganizationIds = adminOrganizationIds;
     }
 
-    public Long getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Long birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

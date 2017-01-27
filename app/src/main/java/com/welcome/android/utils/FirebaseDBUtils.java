@@ -40,6 +40,10 @@ public class FirebaseDBUtils<T extends FirebaseObject> {
         if (!found) throw new RuntimeException("type is not valid");
     }
 
+    public DatabaseReference getNewChildRef(String childKey) {
+        return getContainingRef().child(childKey);
+    }
+
     public DatabaseReference getNewChildRef() {
         return getContainingRef().push();
     }

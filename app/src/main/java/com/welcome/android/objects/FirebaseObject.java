@@ -54,7 +54,7 @@ public abstract class FirebaseObject {
     }
 
     @Exclude
-    public Task pushToDB() {
+    public Task<Void> pushToDB() {
         return ref.setValue(this);
     }
 }

@@ -67,8 +67,6 @@ public class WelcomeActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             FirebaseAuthUtils.logout();
-            FirebaseAuthUtils.currentUser = null;
-            FirebaseAuthUtils.currentFirebaseAuth = null;
             return true;
         }
 

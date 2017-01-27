@@ -9,14 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.welcome.android.R;
-import com.welcome.android.objects.User;
 import com.welcome.android.utils.FirebaseAuthUtils;
-import com.welcome.android.utils.FirebaseDBUtils;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -58,37 +56,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.btnSignUp:
                 final Intent regToOccupation = new Intent(SignUpActivity.this, OccupationActivity.class);
-
-                final User newUser = new User();
-                FirebaseDBUtils<User> fdbu = new FirebaseDBUtils<User>(User.class);
-                newUser.setRef(fdbu.getNewChildRef());
-
-                newUser.setName(editName.getText().toString());
-                newUser.setEmail(editEmail.getText().toString());
-
-                newUser.pushToDB().continueWith(new Continuation<Void, Task<AuthResult>>() {
+                FirebaseAuthUtils.signUp(editEmail.getText().toString(), editName.getText().toString(), editPassword.getText().toString()).addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public Task then(@NonNull Task task) throws Exception {
-                        return FirebaseAuthUtils.signUp(newUser, editPassword.getText().toString());
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(SignUpActivity.this, e.toString(), Toast.LENGTH_LONG).show();
                     }
-                }).continueWith(new Continuation<AuthResult, Task<User>>() {
+                }).addOnSuccessListener(new OnSuccessListener() {
                     @Override
-                    public Task<User> then(@NonNull Task<AuthResult> task) throws Exception {
-                        FirebaseAuthUtils.currentFirebaseAuth = task.getResult().getUser();
-                        //regToOccupation.putExtra("password", editPassword.getText().toString());
-                        return User.getById(FirebaseAuthUtils.currentFirebaseAuth.getUid());
-                    }
-                }).continueWith(new Continuation<User, Void>() {
-                    @Override
-                    public Void then(@NonNull Task<User> task) throws Exception {
-                        //FirebaseAuthUtils.currentUser = task.getResult();
-                       // Toast.makeText(SignUpActivity.this, "adfadsf", Toast.LENGTH_LONG).show();
-                       startActivity(regToOccupation);
-                        return null;
+                    public void onSuccess(Object o) {
+                        startActivity(regToOccupation);
                     }
                 });
-                //startActivity(regToOccupation);
-
                 break;
             default:
                 break;

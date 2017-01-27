@@ -48,9 +48,7 @@ public class DatePickerFrag implements View.OnClickListener, DatePickerDialog.On
 
     // updates the date in the birth date EditText
     private void updateDisplay() {
-
-        _editText.setText(new StringBuilder()
-                // Month is 0 based so add 1
-                .append(_day).append("/").append(_month + 1).append("/").append(_birthYear).append(" "));
+        String bday = (_month + 1) + "/" + _day + "/" + _birthYear;
+        _editText.setText(bday);
     }
 }

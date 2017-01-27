@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.welcome.android.R;
+import com.welcome.android.utils.FirebaseAuthUtils;
 
 public class OccupationActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -20,8 +21,6 @@ public class OccupationActivity extends AppCompatActivity implements View.OnClic
     private EditText editOccupation, editSchool, editMajor, editYear;
     private boolean isStudent = true;
     private Button btnNext1to2;
-
-//    private Bundle imports;
 
     private String PASSWORD;
 
@@ -36,25 +35,6 @@ public class OccupationActivity extends AppCompatActivity implements View.OnClic
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         final String occupations[] = {"Student", "Professional"};
-//            Bundle imports = getIntent().getExtras();
-//
-//            PASSWORD = (String) imports.get("password");
-
-        //Toast.makeText(OccupationActivity.this, PASSWORD, Toast.LENGTH_LONG).show();
-//        Toast.makeText(OccupationActivity.this, newUser.getName().toString(), Toast.LENGTH_LONG).show();
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Additional Info")
-//                .setMessage("We need some additional info from you before we can sign you up. Don't worry, you'll only have to enter this once!")
-//                .setCancelable(false)
-//                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.dismiss();
-//                    }
-//                });
-//
-//        AlertDialog alert = builder.create();
-//        alert.show();
         editSchool = (EditText) this.findViewById(R.id.editSchool);
         editMajor = (EditText) this.findViewById(R.id.editMajor);
         editYear = (EditText) this.findViewById(R.id.editYear);
@@ -93,7 +73,8 @@ public class OccupationActivity extends AppCompatActivity implements View.OnClic
                                         editYear.setVisibility(View.INVISIBLE);
                                         editYear.setHint("");
                                     }
-                                    editOccupation.setText(occupations[which]);
+                                    String occupation = occupations[which];
+                                    editOccupation.setText(occupation);
 
                                     dialog.dismiss();
 
@@ -119,40 +100,12 @@ public class OccupationActivity extends AppCompatActivity implements View.OnClic
 
         switch (id) {
             case R.id.btnNext1to2:
+                FirebaseAuthUtils.currentUser.setOccupation(editOccupation.getText().toString());
                 final Intent occupationToAddInfo = new Intent(OccupationActivity.this, AdditionalInfoActivity.class);
-
-                /*final User newUser = FirebaseAuthUtils.currentUser;
-                newUser.setJobTitle(editOccupation.getText().toString());
-                newUser.setSchool(editSchool.getText().toString());
-                newUser.setMajor(editMajor.getText().toString());
-                newUser.setYear(editYear.getText().toString());
-                newUser.pushToDB().continueWith(new Continuation<Void, Task<AuthResult>>() {
-                    @Override
-                    public Task<AuthResult> then(@NonNull Task<Void> task) throws Exception {
-                        return FirebaseAuthUtils.signUp(newUser, PASSWORD);
-                    }
-                }).continueWith(new Continuation<AuthResult, Void>() {
-                    @Override
-                    public Void then(@NonNull Task task) throws Exception {
-                        return null;
-                    }
-                });*/
                 startActivity(occupationToAddInfo);
-
                 break;
 
             case R.id.editOccupation:
-
-//                final String occupations[] = {"Student", "Professional"};
-//                AlertDialog.Builder builder = new AlertDialog.Builder(OccupationActivity.this);
-//                builder.setTitle("Occupation")
-//                        .setItems(occupations, new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                                editOccupation.setText(occupations[which]);
-//                            }
-//                        });
-//                builder.create();
                 break;
 
             default:
