@@ -111,6 +111,11 @@
         android:layout_margin="16dp"
         android:id="@+id/form1"
         android:layout_height="wrap_content">
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="0px"
+            android:layout_height="0px" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/formOccupation"
@@ -139,7 +144,6 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:ems="10"
-                android:hint="School"
                 android:inputType="textAutoComplete" />
         </android.support.design.widget.TextInputLayout>
 
@@ -154,7 +158,6 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:textColor="@android:color/white"
-                android:hint="Major"
                 android:inputType="textAutoComplete" />
         </android.support.design.widget.TextInputLayout>
 
@@ -169,9 +172,9 @@
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:ems="10"
-                android:hint="Year"
                 android:inputType="textAutoComplete" />
         </android.support.design.widget.TextInputLayout>
+
     </LinearLayout>
 
     <Button

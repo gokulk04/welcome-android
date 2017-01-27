@@ -9,7 +9,7 @@
     android:background="@color/colorPrimary"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.example.gokul.signinapp_1_8.LogInActivity">
+    tools:context="com.welcome.android.activity.LogInActivity">
 
     <LinearLayout
         android:orientation="vertical"
@@ -57,7 +57,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:textColor="#fff" />
 
-    <TextView
+    <!--<TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
 
@@ -85,7 +85,7 @@
         android:text="CONTINUE WITH GOOGLE+"
         android:textAllCaps="false"
         style="?android:attr/borderlessButtonStyle"
-        android:textColor="#fff" />
+        android:textColor="#fff" />-->
 
     <LinearLayout
         android:layout_width="wrap_content"

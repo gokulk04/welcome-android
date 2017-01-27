@@ -120,6 +120,7 @@
             <EditText
                 android:id="@+id/editBirthday"
                 android:layout_width="fill_parent"
+                android:focusable="false"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
                 android:ems="10"
@@ -164,7 +165,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
             <EditText
-                android:id="@+id/editYear"
+                android:id="@+id/editGender"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"

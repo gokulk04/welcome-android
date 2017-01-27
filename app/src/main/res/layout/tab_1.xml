@@ -32,11 +32,25 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             app:SpinKit_Color="@color/colorPrimary" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:layout_width="75dp"
+            android:id="@+id/imgCamera"
+            android:background="@drawable/camera"
+            android:layout_height="75dp" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
+
         android:layout_height="match_parent"/>
 
 

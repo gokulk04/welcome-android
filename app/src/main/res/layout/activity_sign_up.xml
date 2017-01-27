@@ -78,7 +78,7 @@
             style="?android:attr/borderlessButtonStyle"
             android:textColor="#fff" />
 
-        <TextView
+        <!--<TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
 
@@ -106,7 +106,7 @@
             android:text="SIGN UP WITH GOOGLE+"
             android:textAllCaps="false"
             style="?android:attr/borderlessButtonStyle"
-            android:textColor="#fff" />
+            android:textColor="#fff" />-->
 
         <LinearLayout
             android:layout_width="wrap_content"

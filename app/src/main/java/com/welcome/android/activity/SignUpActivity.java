@@ -75,17 +75,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public Task<User> then(@NonNull Task<AuthResult> task) throws Exception {
                         FirebaseAuthUtils.currentFirebaseAuth = task.getResult().getUser();
-                        regToOccupation.putExtra("password", editPassword.getText().toString());
+                        //regToOccupation.putExtra("password", editPassword.getText().toString());
                         return User.getById(FirebaseAuthUtils.currentFirebaseAuth.getUid());
                     }
                 }).continueWith(new Continuation<User, Void>() {
                     @Override
                     public Void then(@NonNull Task<User> task) throws Exception {
-                        FirebaseAuthUtils.currentUser = task.getResult();
-                        startActivity(regToOccupation);
+                        //FirebaseAuthUtils.currentUser = task.getResult();
+                       // Toast.makeText(SignUpActivity.this, "adfadsf", Toast.LENGTH_LONG).show();
+                       startActivity(regToOccupation);
                         return null;
                     }
                 });
+                //startActivity(regToOccupation);
+
+                break;
             default:
                 break;
         }
