@@ -1,87 +1,88 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:maxWidth="325dp"
-    android:padding="16dp"
-    android:layout_width="match_parent">
+    android:padding="16dp">
     <!-- A CardView that contains a TextView -->
         <android.support.v7.widget.CardView
             android:id="@+id/card_view"
             android:layout_width="match_parent"
-            app:cardElevation="5dp"
-            app:cardBackgroundColor="@color/colorPrimary"
             android:layout_height="match_parent"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="5dp"
             app:cardPreventCornerOverlap="false"
-            app:contentPadding="0dp"
-            app:cardCornerRadius="4dp">
+            app:contentPadding="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:weightSum="1.0"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_height="match_parent">
+                android:weightSum="1.0">
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight=".1"
-                    android:paddingRight="16dp"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
                     android:orientation="horizontal"
-                    android:layout_height="0dp">
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp">
 
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="30dp"
                         android:id="@+id/imgOrgLogo"
-                        android:gravity="start|center_vertical"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/mdblogo"
-                        android:layout_height="30dp" />
+                        android:gravity="start|center_vertical"
+                        android:src="@drawable/mdblogo" />
 
                     <TextView
+                        android:id="@+id/eventOrgName"
                         android:layout_width="match_parent"
-                        android:textSize="15sp"
-                        android:paddingLeft="16dp"
-                        android:gravity="start|center_vertical"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:gravity="start|center_vertical"
+                        android:paddingLeft="16dp"
                         android:text="Mobile Developers of Berkeley"
                         android:textColor="@android:color/white"
-                        android:layout_height="wrap_content" />
+                        android:textSize="15sp" />
 
 
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="match_parent"
                     android:id="@+id/imgEvent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_below="@+id/llOrgInfo"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/p1"
                     android:layout_weight=".8"
-                    android:layout_height="0dp" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/p1" />
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight=".2"
                     android:orientation="vertical"
-                    android:paddingRight="16dp"
-                    android:paddingLeft="16dp"
                     android:padding="8dp"
-                    android:layout_height="0dp">
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
                     <TextView
+                        android:id="@+id/eventDetails"
                         android:layout_width="wrap_content"
-                        android:textSize="20sp"
-                        android:gravity="center_vertical"
-                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
                         android:text="Event Details"
                         android:textColor="@android:color/white"
-                        android:layout_height="wrap_content" />
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>

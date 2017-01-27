@@ -28,6 +28,17 @@ public class Tab2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_2, container, false);
 
+        final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerOrgs);
+        final RecyclerView recyclerViewEvents = (RecyclerView) v.findViewById(R.id.recyclerEvents);
+        recyclerViewEvents.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(llm);
+
+        LinearLayoutManager llm2 = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(llm2);
+
         ImageView profileImageView = (ImageView) v.findViewById(R.id.profileImage);
         Picasso.with(v.getContext()).load(FirebaseAuthUtils.currentUser.getProfPicUrl()).into(profileImageView);
 
@@ -37,31 +48,20 @@ public class Tab2 extends Fragment {
         FirebaseAuthUtils.currentUser.getOrganizations().addOnSuccessListener(new OnSuccessListener<List<Organization>>() {
             @Override
             public void onSuccess(List<Organization> organizations) {
-                // TODO: display organizations
+                OrgListAdapter orgAdapter = new OrgListAdapter(getActivity(), organizations);
+                recyclerView.setAdapter(orgAdapter);
+                // TODO: not sure if this will work ???
             }
         });
 
         FirebaseAuthUtils.currentUser.getEventsAttended().addOnSuccessListener(new OnSuccessListener<List<Event>>() {
             @Override
             public void onSuccess(List<Event> events) {
-                // TODO: display events attended
+                MyStuffEventsAdapter mseAdapter = new MyStuffEventsAdapter(getActivity(), events);
+                recyclerViewEvents.setAdapter(mseAdapter);
+                // TODO: not sure if this will work ???
             }
         });
-
-        final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerOrgs);
-        final RecyclerView recyclerViewEvents = (RecyclerView) v.findViewById(R.id.recyclerEvents);
-        recyclerViewEvents.setHasFixedSize(true);
-        recyclerView.setHasFixedSize(true);
-
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(llm);
-        OrgListAdapter orgAdapter = new OrgListAdapter (getActivity());
-        recyclerView.setAdapter(orgAdapter);
-
-        LinearLayoutManager llm2 = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(llm2);
-        MyStuffEventsAdapter mseAdapter = new MyStuffEventsAdapter(getActivity());
-        recyclerViewEvents.setAdapter(mseAdapter);
 
         return v;
     }

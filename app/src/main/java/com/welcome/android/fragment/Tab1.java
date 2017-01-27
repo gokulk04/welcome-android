@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import com.welcome.android.R;
 import com.welcome.android.adapter.EventListAdapter;
+import com.welcome.android.objects.Event;
+
+import java.util.ArrayList;
 
 
 /**
@@ -91,7 +94,9 @@ public class Tab1 extends Fragment {
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(llm);
-        EventListAdapter rvAdapter = new EventListAdapter(getActivity());
+
+        // TODO: get events ???
+        EventListAdapter rvAdapter = new EventListAdapter(getActivity(), new ArrayList<Event>());
         recyclerView.setAdapter(rvAdapter);
 
         return v;
