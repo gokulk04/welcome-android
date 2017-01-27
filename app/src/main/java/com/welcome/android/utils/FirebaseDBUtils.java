@@ -13,6 +13,7 @@ import com.welcome.android.objects.FirebaseObject;
 import com.welcome.android.objects.Organization;
 import com.welcome.android.objects.SignIn;
 import com.welcome.android.objects.User;
+import com.welcome.android.objects.iBeacon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,8 @@ import java.util.List;
  */
 
 public class FirebaseDBUtils<T extends FirebaseObject> {
-    private final Class[] types = {Event.class, Organization.class, SignIn.class, User.class};
-    private final String[] containingRefStrs = {"Events", "Organizations", "SignIns", "Users"};
+    private final Class[] types = {Event.class, Organization.class, SignIn.class, User.class, iBeacon.class};
+    private final String[] containingRefStrs = {"Events", "Organizations", "SignIns", "Users", "iBeacons"};
     private int i;
 
     public FirebaseDBUtils(Class<T> type) {
