@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.example.gokul.signinapp_1_8.AdditionalInfoActivity">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_margin="16dp"
+        android:layout_below="@+id/tool_bar"
+        android:orientation="horizontal"
+        android:id="@+id/sequenceDots"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:layout_width="50dp"
+            android:background="@drawable/circle_filled"
+            android:text="1"
+            android:layout_gravity="center"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_margin="5dp"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:layout_height="50dp" />
+
+        <Button
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/circle_filled"
+            />
+
+        <Button
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/circle_filled"
+            />
+
+        <Button
+            android:layout_width="50dp"
+            android:background="@drawable/circle_filled"
+            android:text="2"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:textSize="30sp"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="@android:color/white"
+            android:layout_height="50dp" />
+
+        <Button
+            android:layout_margin="5dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_gravity="center"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/circile_unfilled"
+            />
+
+        <Button
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:layout_width="15dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_height="15dp"
+            android:background="@drawable/circile_unfilled"
+            />
+
+        <Button
+            android:layout_width="50dp"
+            android:background="@drawable/circile_unfilled"
+            android:text="3"
+            android:layout_gravity="center"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_margin="5dp"
+            android:textSize="30sp"
+            android:textColor="@color/colorAccent"
+            android:layout_height="50dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:text="Step 2: Additional Info"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="17.5sp"
+        android:id="@+id/txtOccupation"
+        android:layout_below="@+id/sequenceDots"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/txtOccupation"
+        android:layout_margin="16dp"
+        android:id="@+id/form2"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/formBirthday"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/editBirthday"
+                android:layout_width="fill_parent"
+                android:focusable="false"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:ems="10"
+                android:hint="Birthday"
+                android:inputType="date" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/formNumber"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <EditText
+                android:id="@+id/editNumber"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Phone Number"
+                android:textColor="@android:color/white"
+                android:inputType="phone" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/formEthnicity"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/editEthnicity"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="@android:color/white"
+                android:hint="Ethnicity"
+                android:inputType="textAutoComplete" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/formYear"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <EditText
+                android:id="@+id/editGender"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="@android:color/white"
+                android:hint="Gender"
+                android:inputType="textCapCharacters" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btnNext2to3"
+        android:background="@drawable/btn_sign_up"
+        android:text="Continue"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="#fff" />
+
+</RelativeLayout>

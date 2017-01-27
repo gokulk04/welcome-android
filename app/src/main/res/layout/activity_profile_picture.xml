@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.welcome.android.activity.ProfilePictureActivity">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_margin="16dp"
+        android:layout_below="@+id/tool_bar"
+        android:orientation="horizontal"
+        android:id="@+id/sequenceDots"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:layout_width="50dp"
+            android:background="@drawable/circle_filled"
+            android:text="1"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:textSize="30sp"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="@android:color/white"
+            android:layout_height="50dp" />
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:background="@drawable/circle_filled"
+            />
+
+        <Button
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:layout_width="15dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_height="15dp"
+            android:background="@drawable/circle_filled"
+            />
+
+        <Button
+            android:layout_width="50dp"
+            android:background="@drawable/circle_filled"
+            android:text="2"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:textSize="30sp"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="@android:color/white"
+            android:layout_height="50dp" />
+
+        <Button
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:layout_width="15dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_height="15dp"
+            android:background="@drawable/circle_filled"
+            />
+
+        <Button
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:layout_width="15dp"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_height="15dp"
+            android:background="@drawable/circle_filled"
+            />
+
+        <Button
+            android:layout_width="50dp"
+            android:background="@drawable/circle_filled"
+            style="?android:attr/borderlessButtonStyle"
+            android:text="3"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:textSize="30sp"
+            android:textColor="@android:color/white"
+            android:layout_height="50dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:text="Step 3: Profile Picture"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="17.5sp"
+        android:id="@+id/txtOccupation"
+        android:layout_below="@+id/sequenceDots"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/txtOccupation"
+        android:layout_margin="16dp"
+        android:id="@+id/form2"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="175dp"
+            android:layout_height="175dp"
+            android:layout_gravity="center"
+            android:src="@drawable/user"
+           />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/btnUploadPic"
+            android:padding="16dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/btn_upload_pic"
+            android:text="Upload Picture"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="#fff" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_margin="16dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        android:id="@+id/btnNext3"
+        android:background="@drawable/btn_sign_up"
+        android:text="Continue"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="#fff" />
+
+</RelativeLayout>
