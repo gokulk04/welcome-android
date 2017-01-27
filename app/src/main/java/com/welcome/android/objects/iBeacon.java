@@ -73,9 +73,11 @@ public class iBeacon extends FirebaseObject {
         try {
             other = (iBeacon) o;
         } catch (ClassCastException e) {
-            throw new RuntimeException("can't cast object to SignIn");
+            throw new RuntimeException("can't cast object to iBeacon");
         }
         organizationId = other.organizationId;
         eventId = other.eventId;
+        major = other.major;
+        minor = other.minor;
     }
 }
