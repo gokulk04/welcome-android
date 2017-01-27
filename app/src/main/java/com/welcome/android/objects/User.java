@@ -32,8 +32,8 @@ public class User extends FirebaseObject{
     }
 
     @Exclude
-    public static Task<User> getById(String eventId) {
-        return new FirebaseDBUtils<User>(User.class).getById(eventId);
+    public static Task<User> getById(String id) {
+        return new FirebaseDBUtils<User>(User.class).getById(id);
     }
 
     @Exclude

@@ -5,13 +5,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
 import com.welcome.android.R;
+import com.welcome.android.objects.User;
+import com.welcome.android.utils.FirebaseAuthUtils;
+import com.welcome.android.utils.FirebaseStorageUtils;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -21,8 +27,8 @@ import java.io.InputStream;
  * status bar and navigation/system bar) with user interaction.
  */
 public class ProfilePictureActivity extends AppCompatActivity implements View.OnClickListener {
-    Toolbar mToolbar;
     private final int SELECT_PHOTO = 1;
+    Toolbar mToolbar;
     private ImageView imgProfile;
 
     private Button btnNext3, btnUploadPic;
@@ -78,13 +84,19 @@ public class ProfilePictureActivity extends AppCompatActivity implements View.On
                 Intent imgIntent = new Intent (Intent.ACTION_PICK);
                 imgIntent.setType("image/*");
                 startActivityForResult(imgIntent, SELECT_PHOTO);
-                //Firebase add user info for profile picture **NOTE PROFILE PIC UPLOAD NOT WORKING PROPERLY
-
-
+                Bitmap bitmap = null; // TODO: set bitmap you want to upload
+                FirebaseStorageUtils.uploadImage(bitmap).continueWith(new Continuation<Uri, Task>() {
+                    @Override
+                    public Task then(@NonNull Task<Uri> task) throws Exception {
+                        String url = task.getResult().toString();
+                        User currentUser = FirebaseAuthUtils.currentUser;
+                        currentUser.setProfPicUrl(url);
+                        return currentUser.pushToDB();
+                    }
+                });
                 break;
             default:
                 break;
         }
-
     }
 }

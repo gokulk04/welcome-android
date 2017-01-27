@@ -20,8 +20,8 @@ public class SignIn extends FirebaseObject {
     }
 
     @Exclude
-    public static Task<SignIn> getById(String eventId) {
-        return new FirebaseDBUtils<SignIn>(SignIn.class).getById(eventId);
+    public static Task<SignIn> getById(String id) {
+        return new FirebaseDBUtils<SignIn>(SignIn.class).getById(id);
     }
 
     @Exclude

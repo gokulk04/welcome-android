@@ -26,8 +26,6 @@ public class Tab2 extends Fragment {
         recyclerViewEvents.setHasFixedSize(true);
         recyclerView.setHasFixedSize(true);
 
-
-
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(llm);
         OrgListAdapter orgAdapter = new OrgListAdapter (getActivity());
@@ -37,9 +35,6 @@ public class Tab2 extends Fragment {
         recyclerView.setLayoutManager(llm2);
         MyStuffEventsAdapter mseAdapter = new MyStuffEventsAdapter(getActivity());
         recyclerViewEvents.setAdapter(mseAdapter);
-
-
-
 
         return v;
     }

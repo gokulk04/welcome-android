@@ -23,8 +23,8 @@ public class Organization extends FirebaseObject {
     }
 
     @Exclude
-    public static Task<Organization> getById(String eventId) {
-        return new FirebaseDBUtils<Organization>(Organization.class).getById(eventId);
+    public static Task<Organization> getById(String id) {
+        return new FirebaseDBUtils<Organization>(Organization.class).getById(id);
     }
 
     @Exclude

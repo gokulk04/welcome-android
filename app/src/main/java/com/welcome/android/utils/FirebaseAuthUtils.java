@@ -14,6 +14,9 @@ import com.welcome.android.objects.User;
  */
 
 public class FirebaseAuthUtils {
+    public static User currentUser;
+    public static FirebaseUser currentFirebaseAuth;
+
     public static Task login(String email, String password) {
         return FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password);
     }
