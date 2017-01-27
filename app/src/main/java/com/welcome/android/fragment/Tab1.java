@@ -3,6 +3,7 @@ package com.welcome.android.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,11 +15,16 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.welcome.android.R;
 import com.welcome.android.adapter.EventListAdapter;
 import com.welcome.android.objects.Event;
+import com.welcome.android.objects.iBeacon;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -45,9 +51,6 @@ public class Tab1 extends Fragment {
 
         View v = LayoutInflater.from(container.getContext()).inflate(R.layout.tab_1, container, false);
 
-        //TODO: GET FILTERED EVENT OBJECTS FOR NEARBY EVENTS FROM FIREBASE
-        //TODO: GET FIREBASE QR CODE INTEGRATION
-
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setVisibility(View.INVISIBLE);
@@ -62,42 +65,45 @@ public class Tab1 extends Fragment {
                 if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
                     startActivityForResult(takePictureIntent, 1);
                 }
+                //TODO: get QR code from image taken and retrieve "organizationId/eventId"
             }
         });
 
-        //TODO: CURRENTLY A DUMMY PROGRESS GUI FOR SCANNING NEARBY EVENTS. REPLACE TIMER WITH CALLBACK FOR WHEN FIREBASE HAS FOUND NEARBY EVENTS
-
-       new Thread(){
+        final List<iBeacon> iBeacons = new ArrayList<>();
+        iBeacon.getAll().continueWithTask(new Continuation<List<iBeacon>, Task<Event>>() {
             @Override
-            public void run(){
-                try{
-                    synchronized (this){
-                        wait(3000);
-
-                        getActivity().runOnUiThread(new Runnable(){
-                            @Override
-                            public void run() {
-                                txtScanning.setVisibility(View.INVISIBLE);
-                                llScanning.setVisibility(View.INVISIBLE);
-                                recyclerView.setVisibility(View.VISIBLE);
-                                imgCamera.setVisibility(View.INVISIBLE);
-
-                            }
-                        });
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            public Task<Event> then(@NonNull Task<List<iBeacon>> task) throws Exception {
+                iBeacons.addAll(task.getResult());
+                // TODO: do some ble stuff to get closest event
+                String eventId = "-KaMai8mOz_8jX1i9t1R";
+                String orgId = "-KaMaOqNGGMXHrxhiNyJ";
+                return Event.getById(orgId, eventId);
             }
-        }.start();
+        }).addOnSuccessListener(new OnSuccessListener<Event>() {
+            @Override
+            public void onSuccess(Event event) {
+                List<Event> events = new ArrayList<Event>();
+                events.add(event);
 
+                // TODO: not sure if this would work?
+                EventListAdapter rvAdapter = new EventListAdapter(getActivity(), events);
+                recyclerView.setAdapter(rvAdapter);
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        txtScanning.setVisibility(View.INVISIBLE);
+                        llScanning.setVisibility(View.INVISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        imgCamera.setVisibility(View.INVISIBLE);
+
+                    }
+                });
+            }
+        });
 
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(llm);
-
-        // TODO: get events ???
-        EventListAdapter rvAdapter = new EventListAdapter(getActivity(), new ArrayList<Event>());
-        recyclerView.setAdapter(rvAdapter);
 
         return v;
     }
