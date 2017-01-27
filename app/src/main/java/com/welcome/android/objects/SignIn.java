@@ -14,6 +14,7 @@ public class SignIn extends FirebaseObject {
     private String userId;
     private String time;
     private String eventId;
+    private String organizationId;
 
     public SignIn() {
 
@@ -22,6 +23,11 @@ public class SignIn extends FirebaseObject {
     @Exclude
     public static Task<SignIn> getById(String id) {
         return new FirebaseDBUtils<SignIn>(SignIn.class).getById(id);
+    }
+
+    @Exclude
+    public static Task<List<SignIn>> getByIds(List<String> ids) {
+        return new FirebaseDBUtils<SignIn>(SignIn.class).getByIds(ids);
     }
 
     @Exclude
@@ -70,5 +76,13 @@ public class SignIn extends FirebaseObject {
 
     public void setEventId(String eventId) {
         this.eventId = eventId;
+    }
+
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
     }
 }

@@ -11,11 +11,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.squareup.picasso.Picasso;
 import com.welcome.android.R;
 import com.welcome.android.adapter.MyStuffEventsAdapter;
 import com.welcome.android.adapter.OrgListAdapter;
+import com.welcome.android.objects.Event;
+import com.welcome.android.objects.Organization;
 import com.welcome.android.utils.FirebaseAuthUtils;
+
+import java.util.List;
 
 public class Tab2 extends Fragment {
 
@@ -29,8 +34,19 @@ public class Tab2 extends Fragment {
         TextView profileNameView = (TextView) v.findViewById(R.id.txtMyStuffName);
         profileNameView.setText(FirebaseAuthUtils.currentUser.getName());
 
-        // TODO: show orgs ???
-        // TODO: show and display attended events ???
+        FirebaseAuthUtils.currentUser.getOrganizations().addOnSuccessListener(new OnSuccessListener<List<Organization>>() {
+            @Override
+            public void onSuccess(List<Organization> organizations) {
+                // TODO: display organizations
+            }
+        });
+
+        FirebaseAuthUtils.currentUser.getEventsAttended().addOnSuccessListener(new OnSuccessListener<List<Event>>() {
+            @Override
+            public void onSuccess(List<Event> events) {
+                // TODO: display events attended
+            }
+        });
 
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerOrgs);
         final RecyclerView recyclerViewEvents = (RecyclerView) v.findViewById(R.id.recyclerEvents);

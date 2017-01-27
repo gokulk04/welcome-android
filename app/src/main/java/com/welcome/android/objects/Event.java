@@ -30,6 +30,11 @@ public class Event extends FirebaseObject {
     }
 
     @Exclude
+    public static Task<List<Event>> getByIds(String organizationId, List<String> ids) {
+        return new FirebaseDBUtils<Event>(Event.class).getByIds(organizationId, ids);
+    }
+
+    @Exclude
     public static Task<List<Event>> getAll(String organizationId) {
         return new FirebaseDBUtils<Event>(Event.class).getAll(organizationId);
     }

@@ -26,6 +26,11 @@ public class iBeacon extends FirebaseObject {
     }
 
     @Exclude
+    public static Task<List<iBeacon>> getByIds(List<String> ids) {
+        return new FirebaseDBUtils<iBeacon>(iBeacon.class).getByIds(ids);
+    }
+
+    @Exclude
     public static Task<List<iBeacon>> getAll() {
         return new FirebaseDBUtils<iBeacon>(iBeacon.class).getAll();
     }

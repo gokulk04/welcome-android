@@ -28,6 +28,11 @@ public class Organization extends FirebaseObject {
     }
 
     @Exclude
+    public static Task<List<Organization>> getByIds(List<String> ids) {
+        return new FirebaseDBUtils<Organization>(Organization.class).getByIds(ids);
+    }
+
+    @Exclude
     public static Task<List<Organization>> getAll() {
         return new FirebaseDBUtils<Organization>(Organization.class).getAll();
     }

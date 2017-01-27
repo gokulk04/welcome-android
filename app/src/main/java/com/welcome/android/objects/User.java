@@ -1,9 +1,15 @@
 package com.welcome.android.objects;
 
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.Exclude;
 import com.welcome.android.utils.FirebaseDBUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,6 +43,11 @@ public class User extends FirebaseObject{
     }
 
     @Exclude
+    public static Task<List<User>> getByIds(List<String> ids) {
+        return new FirebaseDBUtils<User>(User.class).getByIds(ids);
+    }
+
+    @Exclude
     public static Task<List<User>> getAll() {
         return new FirebaseDBUtils<User>(User.class).getAll();
     }
@@ -44,6 +55,58 @@ public class User extends FirebaseObject{
     @Exclude
     public static Task<List<User>> filterAllByParamEqualTo(String param, Object value) {
         return new FirebaseDBUtils<User>(User.class).filterAllByParamEqualTo(param, value);
+    }
+
+    @Exclude
+    public Task<List<Organization>> getOrganizations() {
+        final List<Organization> result = new ArrayList<>();
+        if (memberOrganizationIds != null)
+            memberOrganizationIds = new ArrayList<>();
+        if (adminOrganizationIds != null)
+            memberOrganizationIds = new ArrayList<>();
+        return Organization.getByIds(memberOrganizationIds).continueWithTask(new Continuation<List<Organization>, Task<List<Organization>>>() {
+            @Override
+            public Task<List<Organization>> then(@NonNull Task<List<Organization>> task) throws Exception {
+                result.addAll(task.getResult());
+                return Organization.getByIds(adminOrganizationIds);
+            }
+        }).continueWith(new Continuation<List<Organization>, List<Organization>>() {
+            @Override
+            public List<Organization> then(@NonNull Task<List<Organization>> task) throws Exception {
+                result.addAll(task.getResult());
+                return result;
+            }
+        });
+    }
+
+    @Exclude
+    public Task<List<Event>> getEventsAttended() {
+        final List<Event> result = new ArrayList<>();
+        return SignIn.filterAllByParamEqualTo("userId", getRef().getKey()).continueWithTask(new Continuation<List<SignIn>, Task<Void>>() {
+            @Override
+            public Task<Void> then(@NonNull Task<List<SignIn>> task) throws Exception {
+                List<SignIn> signInList = task.getResult();
+                List<Task<Event>> tasks = new ArrayList<Task<Event>>();
+                for (SignIn signIn : signInList) {
+                    String eventId = signIn.getEventId();
+                    String orgId = signIn.getOrganizationId();
+                    Task<Event> t = Event.getById(orgId, eventId).addOnSuccessListener(new OnSuccessListener<Event>() {
+                        @Override
+                        public void onSuccess(Event event) {
+                            result.add(event);
+                        }
+                    });
+                    tasks.add(t);
+                }
+                Task[] taskArray = (Task[]) tasks.toArray();
+                return Tasks.whenAll(taskArray);
+            }
+        }).continueWith(new Continuation<Void, List<Event>>() {
+            @Override
+            public List<Event> then(@NonNull Task<Void> task) throws Exception {
+                return result;
+            }
+        });
     }
 
     @Exclude

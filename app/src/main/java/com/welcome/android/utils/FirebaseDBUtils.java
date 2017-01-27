@@ -23,6 +23,8 @@ import java.util.List;
  */
 
 public class FirebaseDBUtils<T extends FirebaseObject> {
+    private final String wrongFetchStr = "wrong fetch method";
+    private final String cantCastStr = "cant cast value to double, String, or boolean";
     private final Class[] types = {Event.class, Organization.class, SignIn.class, User.class, iBeacon.class};
     private final String[] containingRefStrs = {"Events", "Organizations", "SignIns", "Users", "iBeacons"};
     private int i;
@@ -102,32 +104,69 @@ public class FirebaseDBUtils<T extends FirebaseObject> {
         return task;
     }
 
+    private Task<List<T>> fetchMultipleByRef(DatabaseReference ref, final List<String> keys) {
+        final TaskCompletionSource<List<T>> source = new TaskCompletionSource<List<T>>();
+        Task<List<T>> task = source.getTask();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<T> objects = new ArrayList<T>();
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    if (keys.contains(childSnapshot.getKey())) {
+                        T object = childSnapshot.getValue(getType());
+                        object.setRef(childSnapshot.getRef());
+                        objects.add(object);
+                    }
+                }
+                source.setResult(objects);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                source.setException(databaseError.toException());
+            }
+        });
+        return task;
+    }
+
+    public Task<List<T>> getByIds(List<String> ids) {
+        if (has1SubContainingRefs()) throw new RuntimeException(wrongFetchStr);
+        DatabaseReference ref = getContainingRef();
+        return fetchMultipleByRef(ref, ids);
+    }
+
+    public Task<List<T>> getByIds(String parentId, List<String> ids) {
+        if (!has1SubContainingRefs()) throw new RuntimeException(wrongFetchStr);
+        DatabaseReference ref = getContainingRef().child(parentId);
+        return fetchMultipleByRef(ref, ids);
+    }
+
     public Task<T> getById(String id) {
-        if (has1SubContainingRefs()) throw new RuntimeException("wrong fetch method method");
+        if (has1SubContainingRefs()) throw new RuntimeException(wrongFetchStr);
         DatabaseReference ref = getContainingRef().child(id);
         return fetchSingleByRef(ref);
     }
 
     public Task<T> getById(String parentId, String id) {
-        if (!has1SubContainingRefs()) throw new RuntimeException("wrong fetch method method");
+        if (!has1SubContainingRefs()) throw new RuntimeException(wrongFetchStr);
         DatabaseReference ref = getContainingRef().child(parentId).child(id);
         return fetchSingleByRef(ref);
     }
 
     public Task<List<T>> getAll() {
-        if (has1SubContainingRefs()) throw new RuntimeException("wrong fetch method method");
+        if (has1SubContainingRefs()) throw new RuntimeException(wrongFetchStr);
         DatabaseReference ref = getContainingRef();
         return fetchMultipleByRef(ref);
     }
 
     public Task<List<T>> getAll(String parentId) {
-        if (!has1SubContainingRefs()) throw new RuntimeException("wrong fetch method method");
+        if (!has1SubContainingRefs()) throw new RuntimeException(wrongFetchStr);
         DatabaseReference ref = getContainingRef().child(parentId);
         return fetchMultipleByRef(ref);
     }
 
     public Task<List<T>> filterAllByParamEqualTo(String param, Object value) {
-        if (has1SubContainingRefs()) throw new RuntimeException("wrong fetch method method");
+        if (has1SubContainingRefs()) throw new RuntimeException(wrongFetchStr);
         DatabaseReference ref = getContainingRef();
         Query q = ref.orderByChild(param);
         try {
@@ -142,7 +181,7 @@ public class FirebaseDBUtils<T extends FirebaseObject> {
                     boolean v = (Boolean) value;
                     q = q.equalTo(v);
                 } catch (ClassCastException eee) {
-                    throw new RuntimeException("cant cast value to double, String, or boolean");
+                    throw new RuntimeException(cantCastStr);
                 }
             }
         }
@@ -150,7 +189,7 @@ public class FirebaseDBUtils<T extends FirebaseObject> {
     }
 
     public Task<List<T>> filterAllByParamEqualTo(String parentId, String param, Object value) {
-        if (!has1SubContainingRefs()) throw new RuntimeException("wrong fetch method method");
+        if (!has1SubContainingRefs()) throw new RuntimeException(wrongFetchStr);
         DatabaseReference ref = getContainingRef().child(parentId);
         Query q = ref.orderByChild(param);
         try {
@@ -165,7 +204,7 @@ public class FirebaseDBUtils<T extends FirebaseObject> {
                     boolean v = (Boolean) value;
                     q = q.equalTo(v);
                 } catch (ClassCastException eee) {
-                    throw new RuntimeException("cant cast value to double, String, or boolean");
+                    throw new RuntimeException(cantCastStr);
                 }
             }
         }
