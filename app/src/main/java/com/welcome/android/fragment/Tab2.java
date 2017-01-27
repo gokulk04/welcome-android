@@ -8,10 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.welcome.android.R;
 import com.welcome.android.adapter.MyStuffEventsAdapter;
 import com.welcome.android.adapter.OrgListAdapter;
+import com.welcome.android.utils.FirebaseAuthUtils;
 
 public class Tab2 extends Fragment {
 
@@ -19,7 +23,14 @@ public class Tab2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_2, container, false);
 
-        //TODO: GET USER PROFILE INFO FROM FIREBASE
+        ImageView profileImageView = (ImageView) v.findViewById(R.id.profileImage);
+        Picasso.with(v.getContext()).load(FirebaseAuthUtils.currentUser.getProfPicUrl()).into(profileImageView);
+
+        TextView profileNameView = (TextView) v.findViewById(R.id.txtMyStuffName);
+        profileNameView.setText(FirebaseAuthUtils.currentUser.getName());
+
+        // TODO: show orgs ???
+        // TODO: show and display attended events ???
 
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerOrgs);
         final RecyclerView recyclerViewEvents = (RecyclerView) v.findViewById(R.id.recyclerEvents);

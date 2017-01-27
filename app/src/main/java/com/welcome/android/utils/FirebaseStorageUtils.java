@@ -29,7 +29,7 @@ public class FirebaseStorageUtils {
         return hash + "";
     }
 
-    public static Task<Uri> uploadImage(Bitmap bitmap) {
+    protected static Task<Uri> uploadImage(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
