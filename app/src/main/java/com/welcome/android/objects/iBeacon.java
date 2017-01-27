@@ -13,6 +13,8 @@ import java.util.List;
 public class iBeacon extends FirebaseObject {
     private String eventId;
     private String organizationId;
+    private Integer major;
+    private Integer minor;
 
     public iBeacon() {
 
@@ -47,6 +49,22 @@ public class iBeacon extends FirebaseObject {
 
     public void setOrganizationId(String organizationId) {
         this.organizationId = organizationId;
+    }
+
+    public Integer getMajor() {
+        return major;
+    }
+
+    public void setMajor(Integer major) {
+        this.major = major;
+    }
+
+    public Integer getMinor() {
+        return minor;
+    }
+
+    public void setMinor(Integer minor) {
+        this.minor = minor;
     }
 
     @Exclude

@@ -27,9 +27,9 @@ import java.util.List;
 
 public class BLEActivity extends Activity implements BeaconConsumer {
     private final String TAG = "BLEActivity";
+    private final String uuid = "2F235454-CF6D-4A0F-ADF2-F4911BA9AFA6";
     private BeaconManager beaconManager = BeaconManager.getInstanceForApplication(this);
     private List<iBeacon> iBeaconList;
-    private String uuid;
     private Task<Void> onCreateTask;
 
     @Override
@@ -41,7 +41,6 @@ public class BLEActivity extends Activity implements BeaconConsumer {
             @Override
             public Void then(@NonNull Task<List<iBeacon>> task) throws Exception {
                 iBeaconList = task.getResult();
-                uuid = "2F234454-CF6D-4A0F-ADF2-F4911BA9FFA6"; // TODO: figure out how to set this
                 beaconManager.bind(bc);
                 return null;
             }
@@ -63,11 +62,13 @@ public class BLEActivity extends Activity implements BeaconConsumer {
                     @Override
                     public void didRangeBeaconsInRegion(Collection<Beacon> beacons, Region region) {
                         for (Beacon beacon : beacons) {
+                            int detectedMajor = beacon.getId2().toInt();
+                            int detectedMinor = beacon.getId3().toInt();
                             boolean existsOnFirebase = false;
                             for (iBeacon firebaseBeacon : iBeaconList) {
-                                String uuid = firebaseBeacon.getRef().getKey();
-                                String detectedUUID = ((Integer) beacon.getServiceUuid()).toString();
-                                if (uuid.equalsIgnoreCase(detectedUUID)) {
+                                int major = firebaseBeacon.getMajor();
+                                int minor = firebaseBeacon.getMinor();
+                                if (major == detectedMajor && minor == detectedMinor) {
                                     Log.i(TAG, "Firebase iBeacon detected " + beacon.getDistance() + " meters away.");
                                     existsOnFirebase = true;
                                     break;
@@ -81,7 +82,7 @@ public class BLEActivity extends Activity implements BeaconConsumer {
                 });
 
                 try {
-                    beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", Identifier.parse(uuid), Identifier.parse("1"), null));
+                    beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", Identifier.parse(uuid), null, null));
                 } catch (RemoteException e) {
                 }
                 return null;
