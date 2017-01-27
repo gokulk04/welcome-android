@@ -2,6 +2,7 @@ package com.welcome.android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -9,7 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.welcome.android.R;
+import com.welcome.android.objects.User;
+import com.welcome.android.utils.FirebaseAuthUtils;
+import com.welcome.android.utils.FirebaseDBUtils;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -50,24 +57,35 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 startActivity(regToLogin);
                 break;
             case R.id.btnSignUp:
-                Intent regToOccupation = new Intent(SignUpActivity.this, OccupationActivity.class);
-                //Create new firebase user here and add email, name, and password info
+                final Intent regToOccupation = new Intent(SignUpActivity.this, OccupationActivity.class);
 
+                final User newUser = new User();
+                FirebaseDBUtils<User> fdbu = new FirebaseDBUtils<User>(User.class);
+                newUser.setRef(fdbu.getNewChildRef());
 
-//                final User newUser = new User();
-//                FirebaseDBUtils<User> fbase = new FirebaseDBUtils<User>(User.class);
-//                newUser.setRef(fbase.getNewChildRef());
-//
-//                newUser.setName(editName.getText().toString());
-//                newUser.setEmail(editEmail.getText().toString());
-//
-//                newUser.pushToDB();
-//                FirebaseAuthUtils.signUp(newUser, editPassword.getText().toString());
+                newUser.setName(editName.getText().toString());
+                newUser.setEmail(editEmail.getText().toString());
 
-//                regToOccupation.putExtra("newUser", newUser);
-//                regToOccupation.putExtra("password", editPassword.getText().toString());
-
-                startActivity(regToOccupation);
+                newUser.pushToDB().continueWith(new Continuation<Void, Task<AuthResult>>() {
+                    @Override
+                    public Task then(@NonNull Task task) throws Exception {
+                        return FirebaseAuthUtils.signUp(newUser, editPassword.getText().toString());
+                    }
+                }).continueWith(new Continuation<AuthResult, Task<User>>() {
+                    @Override
+                    public Task<User> then(@NonNull Task<AuthResult> task) throws Exception {
+                        FirebaseAuthUtils.currentFirebaseAuth = task.getResult().getUser();
+                        regToOccupation.putExtra("password", editPassword.getText().toString());
+                        return User.getById(FirebaseAuthUtils.currentFirebaseAuth.getUid());
+                    }
+                }).continueWith(new Continuation<User, Void>() {
+                    @Override
+                    public Void then(@NonNull Task<User> task) throws Exception {
+                        FirebaseAuthUtils.currentUser = task.getResult();
+                        startActivity(regToOccupation);
+                        return null;
+                    }
+                });
             default:
                 break;
         }

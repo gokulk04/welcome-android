@@ -2,14 +2,19 @@ package com.welcome.android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.welcome.android.R;
 import com.welcome.android.objects.User;
+import com.welcome.android.utils.FirebaseAuthUtils;
 
 public class OccupationActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -21,7 +26,6 @@ public class OccupationActivity extends AppCompatActivity implements View.OnClic
 
     private Bundle imports;
 
-    private User newUser;
     private String PASSWORD;
 
     @Override
@@ -36,12 +40,7 @@ public class OccupationActivity extends AppCompatActivity implements View.OnClic
 
         imports = getIntent().getExtras();
 
-//        newUser = (User) imports.getSerializable("newUser");
-//        PASSWORD = imports.getString("password");
-
-//        newUser = (User) imports.getSerializableExtra("newUser");
-
-//        PASSWORD = imports.getExtras().getString("password");
+        PASSWORD = imports.getString("password");
 
 //        Toast.makeText(OccupationActivity.this, PASSWORD, Toast.LENGTH_LONG).show();
 //        Toast.makeText(OccupationActivity.this, newUser.getName().toString(), Toast.LENGTH_LONG).show();
@@ -62,20 +61,25 @@ public class OccupationActivity extends AppCompatActivity implements View.OnClic
 
         switch (id) {
             case R.id.btnNext1to2:
-                Intent occupationToAddInfo = new Intent(OccupationActivity.this, AdditionalInfoActivity.class);
-                //Firebase add user info for occupation
+                final Intent occupationToAddInfo = new Intent(OccupationActivity.this, AdditionalInfoActivity.class);
 
-
-//                newUser.setJobTitle(editOccupation.getText().toString());
-//                newUser.setSchool(editSchool.getText().toString());
-
-//                newUser.setMajor(editMajor.getText().toString());
-//                newUser.setYear(editYear.getText().toString());
-
-//                newUser.pushToDB();
-//                FirebaseAuthUtils.signUp(newUser, PASSWORD);
-
-                startActivity(occupationToAddInfo);
+                final User newUser = FirebaseAuthUtils.currentUser;
+                newUser.setJobTitle(editOccupation.getText().toString());
+                newUser.setSchool(editSchool.getText().toString());
+                newUser.setMajor(editMajor.getText().toString());
+                newUser.setYear(editYear.getText().toString());
+                newUser.pushToDB().continueWith(new Continuation<Void, Task<AuthResult>>() {
+                    @Override
+                    public Task<AuthResult> then(@NonNull Task<Void> task) throws Exception {
+                        return FirebaseAuthUtils.signUp(newUser, PASSWORD);
+                    }
+                }).continueWith(new Continuation<AuthResult, Void>() {
+                    @Override
+                    public Void then(@NonNull Task task) throws Exception {
+                        startActivity(occupationToAddInfo);
+                        return null;
+                    }
+                });
                 break;
             default:
                 break;

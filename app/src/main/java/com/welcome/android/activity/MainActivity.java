@@ -31,9 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private int[] layouts;
 
     private Button btnSignUp, btnLogIn;
-    //  viewpager change listener
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
         @Override
         public void onPageSelected(int position) {
             addBottomDots(position);

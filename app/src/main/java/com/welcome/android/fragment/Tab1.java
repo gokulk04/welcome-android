@@ -40,7 +40,6 @@ public class Tab1 extends Fragment {
 
         //GET FILTERED EVENT OBJECTS FOR NEARBY EVENTS FROM FIREBASE
 
-
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setVisibility(View.INVISIBLE);
@@ -77,9 +76,6 @@ public class Tab1 extends Fragment {
         recyclerView.setLayoutManager(llm);
         EventListAdapter rvAdapter = new EventListAdapter(getActivity());
         recyclerView.setAdapter(rvAdapter);
-
-
-
 
         return v;
     }
