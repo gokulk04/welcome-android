@@ -38,7 +38,7 @@ public class Tab1 extends Fragment {
 
         View v = LayoutInflater.from(container.getContext()).inflate(R.layout.tab_1, container, false);
 
-        //GET FILTERED EVENT OBJECTS FOR NEARBY EVENTS FROM FIREBASE
+        //TODO: GET FILTERED EVENT OBJECTS FOR NEARBY EVENTS FROM FIREBASE
 
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -46,7 +46,7 @@ public class Tab1 extends Fragment {
         txtScanning = (TextView) v.findViewById(R.id.txtScanning);
         llScanning = (LinearLayout) v.findViewById(R.id.llScanning);
 
-        //CURRENTLY A DUMMY PROGRESS GUI FOR SCANNING NEARBY EVENTS. REPLACE TIMER WITH CALLBACK FOR WHEN FIREBASE HAS FOUND NEARBY EVENTS
+        //TODO: CURRENTLY A DUMMY PROGRESS GUI FOR SCANNING NEARBY EVENTS. REPLACE TIMER WITH CALLBACK FOR WHEN FIREBASE HAS FOUND NEARBY EVENTS
 
        new Thread(){
             @Override

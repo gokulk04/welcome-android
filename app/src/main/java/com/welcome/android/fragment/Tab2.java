@@ -19,7 +19,7 @@ public class Tab2 extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_2, container, false);
 
-        //GET USER PROFILE INFO FROM FIREBASE
+        //TODO: GET USER PROFILE INFO FROM FIREBASE
 
         final RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.recyclerOrgs);
         final RecyclerView recyclerViewEvents = (RecyclerView) v.findViewById(R.id.recyclerEvents);
