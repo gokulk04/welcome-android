@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.BLEActivity"
+            android:name=".activity.Splash"
             android:theme="@style/Theme.Transparent"
             >
             <intent-filter>

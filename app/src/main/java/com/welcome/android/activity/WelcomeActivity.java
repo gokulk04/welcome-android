@@ -10,6 +10,7 @@ import com.welcome.android.CustomViewPager;
 import com.welcome.android.R;
 import com.welcome.android.SlidingTabLayout;
 import com.welcome.android.adapter.ViewPagerAdapter;
+import com.welcome.android.utils.FirebaseAuthUtils;
 
 public class WelcomeActivity extends AppCompatActivity {
     Toolbar mToolbar;
@@ -63,9 +64,11 @@ public class WelcomeActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //TODO:Add logout functionality for menu item
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
+            FirebaseAuthUtils.logout();
+            FirebaseAuthUtils.currentUser = null;
+            FirebaseAuthUtils.currentFirebaseAuth = null;
             return true;
         }
 
