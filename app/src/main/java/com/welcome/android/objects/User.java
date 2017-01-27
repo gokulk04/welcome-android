@@ -9,7 +9,10 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.database.Exclude;
 import com.welcome.android.utils.FirebaseDBUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -107,6 +110,43 @@ public class User extends FirebaseObject{
                 return result;
             }
         });
+    }
+
+    @Exclude
+    private boolean canSignInSync(Event event) {
+        Date start = new Date(event.getStartTime());
+        Date end = new Date(event.getEndTime());
+        Date now = new Date();
+        return now.getTime() >= start.getTime() && now.getTime() <= end.getTime();
+    }
+
+    @Exclude
+    public Task<Boolean> canSignIn(final Event event) {
+        return getEventsAttended().continueWith(new Continuation<List<Event>, Boolean>() {
+            @Override
+            public Boolean then(@NonNull Task<List<Event>> task) throws Exception {
+                List<Event> events = task.getResult();
+                return canSignInSync(event) && !events.contains(event);
+            }
+        });
+    }
+
+    @Exclude
+    public Task<Void> signIn(Event event) {
+        FirebaseDBUtils<SignIn> fdbu = new FirebaseDBUtils<SignIn>(SignIn.class);
+        SignIn signIn = new SignIn();
+        signIn.setRef(fdbu.getNewChildRef());
+
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
+        Date today = new Date();
+        String time = df.format(today);
+
+        signIn.setEventId(event.getRef().getKey());
+        signIn.setOrganizationId(event.getRef().getParent().getKey());
+        signIn.setUserId(getRef().getKey());
+        signIn.setTime(time);
+
+        return signIn.pushToDB();
     }
 
     @Exclude

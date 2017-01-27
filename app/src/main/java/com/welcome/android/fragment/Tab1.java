@@ -14,17 +14,21 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.welcome.android.R;
 import com.welcome.android.adapter.EventListAdapter;
 import com.welcome.android.objects.Event;
 import com.welcome.android.objects.iBeacon;
+import com.welcome.android.utils.FirebaseAuthUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 
 /**
@@ -70,6 +74,7 @@ public class Tab1 extends Fragment {
         });
 
         final List<iBeacon> iBeacons = new ArrayList<>();
+        final List<Event> events = new ArrayList<Event>();
         iBeacon.getAll().continueWithTask(new Continuation<List<iBeacon>, Task<Event>>() {
             @Override
             public Task<Event> then(@NonNull Task<List<iBeacon>> task) throws Exception {
@@ -79,12 +84,28 @@ public class Tab1 extends Fragment {
                 String orgId = "-KaMaOqNGGMXHrxhiNyJ";
                 return Event.getById(orgId, eventId);
             }
-        }).addOnSuccessListener(new OnSuccessListener<Event>() {
+        }).continueWithTask(new Continuation<Event, Task<Boolean>>() {
             @Override
-            public void onSuccess(Event event) {
-                List<Event> events = new ArrayList<Event>();
+            public Task<Boolean> then(@NonNull Task<Event> task) throws Exception {
+                Event event = task.getResult();
                 events.add(event);
-
+                return FirebaseAuthUtils.currentUser.canSignIn(event);
+            }
+        }).continueWithTask(new Continuation<Boolean, Task<Void>>() {
+            @Override
+            public Task<Void> then(@NonNull Task<Boolean> task) throws Exception {
+                if (task.getResult()) return FirebaseAuthUtils.currentUser.signIn(events.get(0));
+                Toast.makeText(getActivity(), "You can't sign in for this event", Toast.LENGTH_LONG).show();
+                return Tasks.call(new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        return null;
+                    }
+                });
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void voidd) {
                 // TODO: not sure if this would work?
                 EventListAdapter rvAdapter = new EventListAdapter(getActivity(), events);
                 recyclerView.setAdapter(rvAdapter);
